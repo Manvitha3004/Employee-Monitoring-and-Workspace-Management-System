@@ -63,21 +63,22 @@ class SystemController:
     
     def start(self):
         """Start the monitoring system."""
-        logger.info("Starting employee monitoring system...")
+        logger.info("Starting employee monitoring system (BROWSER MODE - NO CAMERA)...")
         
-        # ✅ START CAMERAS for live monitoring feed
-        self._initialize_cameras()
+        # ❌ CAMERAS DISABLED - Browser handles ALL camera access
+        # self._initialize_cameras()  # PERMANENTLY DISABLED
         
-        # Start tracking
+        # Start tracking (works without camera - receives updates from browser)
         self.tracker.start_monitoring()
         
-        # Start processing
+        # Start processing (but no camera frames - browser sends detections)
         self.running = True
-        self.processing_thread = threading.Thread(target=self._processing_loop, daemon=True)
-        self.processing_thread.start()
+        # No processing thread needed - browser does the detection
+        # self.processing_thread = threading.Thread(target=self._processing_loop, daemon=True)
+        # self.processing_thread.start()
         
-        logger.info("System started successfully with live camera feed")
-        self.db.log_system_event('system_start', 'Monitoring system started with cameras')
+        logger.info("System started in BROWSER-ONLY mode (Python NOT using camera)")
+        self.db.log_system_event('system_start', 'Monitoring system started - BROWSER MODE')
     
     def stop(self):
         """Stop the monitoring system."""
