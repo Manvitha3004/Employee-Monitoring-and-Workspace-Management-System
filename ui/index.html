@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Monitoring System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🎥 Employee Monitoring & Workspace Management</h1>
+            <div class="system-status">
+                <span id="system-status" class="status-badge">System Offline</span>
+                <button id="toggle-system" class="btn btn-primary">Start System</button>
+                <a href="register.html" class="btn btn-success" style="margin-left: 1rem;">
+                    📸 Register Employee
+                </a>
+            </div>
+        </header>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <div class="stats-card">
+                <h3>📊 Current Occupancy</h3>
+                <div class="stat-value" id="occupancy">0</div>
+                <div class="stat-label">Employees Present</div>
+            </div>
+            
+            <div class="stats-card">
+                <h3>📹 Active Cameras</h3>
+                <div class="stat-value" id="camera-count">0</div>
+                <div class="stat-label">Cameras Online</div>
+            </div>
+            
+            <div class="stats-card warning">
+                <h3>⚠️ Absence Alerts</h3>
+                <div class="stat-value" id="alert-count">0</div>
+                <div class="stat-label">Unacknowledged</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Camera Feeds Section -->
+            <section class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2>📹 Live Camera Feeds</h2>
+                    <button id="refresh-cameras" class="btn btn-secondary">🔄 Refresh Cameras</button>
+                </div>
+                <div id="camera-grid" class="camera-grid">
+                    <!-- Camera feeds will be loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- Employee Status Section -->
+            <section class="section">
+                <h2>👥 Employee Status</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="all">All Employees</button>
+                    <button class="tab-btn" data-tab="present">Present</button>
+                    <button class="tab-btn" data-tab="absent">Absent (On Timer)</button>
+                </div>
+                <div class="tab-content">
+                    <div id="tab-all" class="tab-pane active">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+                                    <th>Registered</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-employees"></tbody>
+                        </table>
+                    </div>
+                    <div id="tab-present" class="tab-pane">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Entry Time</th>
+                                    <th>Last Seen</th>
+                                    <th>Camera</th>
+                                </tr>
+                            </thead>
+                            <tbody id="present-employees"></tbody>
+                        </table>
+                    </div>
+                    <div id="tab-absent" class="tab-pane">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Absence Start</th>
+                                    <th>Duration</th>
+                                    <th>Timeout Remaining</th>
+                                    <th>Alert Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="absent-employees"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alerts Section -->
+            <section class="section">
+                <h2>🔔 Recent Alerts</h2>
+                <div id="alerts-list" class="alerts-list">
+                    <!-- Alerts will be loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- Logs Section -->
+            <section class="section">
+                <h2>📋 Presence Logs</h2>
+                <div class="filter-bar">
+                    <input type="text" id="filter-employee" placeholder="Filter by Employee ID">
+                    <button id="refresh-logs" class="btn btn-secondary">Refresh</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Entry Time</th>
+                            <th>Exit Time</th>
+                            <th>Duration</th>
+                            <th>Camera</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-table"></tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

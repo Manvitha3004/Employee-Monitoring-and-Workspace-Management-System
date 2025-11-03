@@ -1,0 +1,52 @@
+# Employee Monitoring System Configuration
+
+# Camera Settings
+cameras:
+  - id: 1
+    name: "Main Entrance"
+    source: 0  # 0 for default USB camera, or RTSP URL for IP camera
+    enabled: true
+  # Add more cameras as needed
+  # - id: 2
+  #   name: "Workspace Area"
+  #   source: "rtsp://192.168.1.100:554/stream"
+  #   enabled: true
+
+# Detection Settings
+detection:
+  method: "person"  # Options: "face", "person", "both"
+  confidence_threshold: 0.5
+  detection_interval: 1  # Process every N frames (1 = every frame)
+  face_recognition_enabled: false
+  face_recognition_tolerance: 0.6  # Lower = more strict
+
+# Tracking Settings
+tracking:
+  absence_timeout: 1200  # Seconds (20 minutes)
+  presence_buffer: 30  # Seconds to wait before marking as absent
+  entry_exit_cooldown: 10  # Minimum seconds between entry/exit events
+
+# Alert Settings
+alerts:
+  enabled: true
+  sound_enabled: true
+  notification_enabled: true
+  alert_repeat_interval: 300  # Don't repeat same alert within 5 minutes
+
+# Storage Settings
+database:
+  path: "data/employees.db"
+  log_retention_days: 90  # Keep logs for 90 days
+
+# UI Settings
+ui:
+  port: 5000
+  host: "127.0.0.1"
+  debug: false
+  video_stream_fps: 15
+
+# System Settings
+system:
+  max_threads: 4
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "logs/system.log"
