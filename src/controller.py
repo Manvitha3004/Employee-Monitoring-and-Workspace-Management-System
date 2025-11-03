@@ -65,9 +65,8 @@ class SystemController:
         """Start the monitoring system."""
         logger.info("Starting employee monitoring system...")
         
-        # ⚠️ DO NOT auto-start cameras - browser needs camera for registration!
-        # Cameras will ONLY start when user explicitly clicks "Start Cameras" button
-        # self._initialize_cameras()  # DISABLED - browser uses camera
+        # ✅ START CAMERAS for live monitoring feed
+        self._initialize_cameras()
         
         # Start tracking
         self.tracker.start_monitoring()
@@ -77,8 +76,8 @@ class SystemController:
         self.processing_thread = threading.Thread(target=self._processing_loop, daemon=True)
         self.processing_thread.start()
         
-        logger.info("System started successfully (cameras NOT started - browser mode)")
-        self.db.log_system_event('system_start', 'Monitoring system started (browser camera mode)')
+        logger.info("System started successfully with live camera feed")
+        self.db.log_system_event('system_start', 'Monitoring system started with cameras')
     
     def stop(self):
         """Stop the monitoring system."""

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera Monitoring</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .monitor-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .monitor-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .camera-display {
+            position: relative;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .video-feed {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .detection-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .camera-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .status-panel {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .detection-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .info-card {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .info-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2196F3;
+            margin-top: 0.5rem;
+        }
+        
+        .detected-employees {
+            margin-top: 1.5rem;
+        }
+        
+        .employee-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            background: #4CAF50;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .camera-offline {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: #999;
+            font-size: 1.2rem;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="monitor-container">
+        <!-- Header -->
+        <div class="monitor-header">
+            <h1>🎥 Live Camera Monitoring</h1>
+            <p>Browser-based real-time employee detection</p>
+        </div>
+
+        <!-- Messages -->
+        <div id="message-area"></div>
+
+        <!-- Camera Controls -->
+        <div class="camera-controls">
+            <button id="start-camera" class="btn btn-primary">🎥 Start Camera</button>
+            <button id="stop-camera" class="btn btn-secondary" disabled>⏹️ Stop Camera</button>
+            <button id="toggle-detection" class="btn btn-success" disabled>🔍 Enable Detection</button>
+            <a href="/" class="btn" style="text-decoration: none;">🏠 Back to Dashboard</a>
+        </div>
+
+        <!-- Camera Display -->
+        <div class="camera-display">
+            <video id="video-feed" class="video-feed" autoplay playsinline></video>
+            <canvas id="detection-overlay" class="detection-overlay"></canvas>
+            <div id="camera-offline" class="camera-offline" style="display: none;">
+                📹 Camera Offline - Click "Start Camera" to begin
+            </div>
+        </div>
+
+        <!-- Status Panel -->
+        <div class="status-panel">
+            <h3>📊 Detection Status</h3>
+            
+            <div class="detection-info">
+                <div class="info-card">
+                    <div class="info-label">Camera Status</div>
+                    <div class="info-value" id="camera-status">Offline</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">People Detected</div>
+                    <div class="info-value" id="people-count">0</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Frame Rate</div>
+                    <div class="info-value" id="fps-display">0 FPS</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Processing</div>
+                    <div class="info-value" id="detection-status">OFF</div>
+                </div>
+            </div>
+
+            <div class="detected-employees">
+                <h4>👥 Currently Present:</h4>
+                <div id="employee-list">
+                    <span style="color: #999;">No employees detected</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="monitor.js"></script>
+</body>
+</html>

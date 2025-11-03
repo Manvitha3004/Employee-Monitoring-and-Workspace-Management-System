@@ -250,6 +250,94 @@ class APIServer:
                 logger.error(f"Error getting employee status: {e}")
                 return jsonify({'success': False, 'error': str(e)}), 500
         
+        @self.app.route('/api/detect', methods=['POST'])
+        def detect_frame():
+            """Process frame from browser for detection."""
+            try:
+                import base64
+                import numpy as np
+                
+                data = request.get_json()
+                image_data = data.get('image')
+                camera_id = data.get('camera_id', 1)
+                
+                if not image_data:
+                    return jsonify({'success': False, 'error': 'No image provided'}), 400
+                
+                # Decode base64 image
+                if ',' in image_data:
+                    image_data = image_data.split(',')[1]
+                
+                image_bytes = base64.b64decode(image_data)
+                nparr = np.frombuffer(image_bytes, np.uint8)
+                frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                
+                if frame is None:
+                    return jsonify({'success': False, 'error': 'Invalid image'}), 400
+                
+                # Perform detection
+                detections = self.controller.detection_manager.detect(frame)
+                
+                # Format detections for browser
+                formatted_detections = []
+                detected_employees = []
+                
+                for detection in detections:
+                    bbox = detection.get('bbox', {})
+                    formatted_detections.append({
+                        'bbox': {
+                            'x': bbox.get('x', 0),
+                            'y': bbox.get('y', 0),
+                            'width': bbox.get('width', 0),
+                            'height': bbox.get('height', 0)
+                        },
+                        'confidence': detection.get('confidence', 0),
+                        'label': detection.get('label', 'Person')
+                    })
+                    
+                    # Check if this is a known employee
+                    employee_id = detection.get('employee_id')
+                    if employee_id:
+                        employee = self.controller.db.get_employee(employee_id)
+                        if employee:
+                            detected_employees.append({
+                                'employee_id': employee_id,
+                                'name': employee['name']
+                            })
+                
+                return jsonify({
+                    'success': True,
+                    'data': {
+                        'detections': formatted_detections,
+                        'employees': detected_employees,
+                        'count': len(formatted_detections)
+                    }
+                })
+                
+            except Exception as e:
+                logger.error(f"Error in detection: {e}")
+                return jsonify({'success': False, 'error': str(e)}), 500
+        
+        @self.app.route('/api/presence/update', methods=['POST'])
+        def update_presence():
+            """Update employee presence from browser detection."""
+            try:
+                data = request.get_json()
+                employee_id = data.get('employee_id')
+                camera_id = data.get('camera_id', 1)
+                
+                if not employee_id:
+                    return jsonify({'success': False, 'error': 'Missing employee_id'}), 400
+                
+                # Update tracking
+                self.controller.tracker.update_detection(employee_id, camera_id)
+                
+                return jsonify({'success': True, 'message': 'Presence updated'})
+                
+            except Exception as e:
+                logger.error(f"Error updating presence: {e}")
+                return jsonify({'success': False, 'error': str(e)}), 500
+        
         @self.app.route('/api/employees/status', methods=['GET'])
         def get_all_employee_status():
             """Get status of all employees."""
