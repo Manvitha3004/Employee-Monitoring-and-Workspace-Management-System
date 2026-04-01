@@ -2,7 +2,7 @@
 
 A comprehensive, locally deployable solution for real-time employee monitoring and workspace management designed specifically for MSMEs (Micro, Small, and Medium Enterprises).
 
-## 🎯 Features
+## Features
 
 ### Core Capabilities
 - **Multi-Camera Support**: Connect USB and IP cameras simultaneously
@@ -23,7 +23,7 @@ A comprehensive, locally deployable solution for real-time employee monitoring a
 - Modern web UI with real-time updates
 - Modular architecture for easy customization
 
-## 📋 Requirements
+##  Requirements
 
 ### Hardware
 - Windows PC (Windows 10 or later recommended)
@@ -35,7 +35,7 @@ A comprehensive, locally deployable solution for real-time employee monitoring a
 - Python 3.8 or later
 - Web browser (Chrome, Firefox, Edge)
 
-## 🚀 Installation
+## Installation
 
 ### Step 1: Install Python
 1. Download Python 3.8+ from [python.org](https://www.python.org/downloads/)
@@ -94,7 +94,7 @@ The system will:
 2. Start monitoring
 3. Launch the web interface at http://localhost:5000
 
-## 📖 User Guide
+## User Guide
 
 ### First-Time Setup
 
@@ -173,7 +173,7 @@ alerts:
   alert_repeat_interval: 300  # Don't repeat alerts within 5 min
 ```
 
-## 🔌 API Reference
+## API Reference
 
 ### System Endpoints
 
@@ -256,7 +256,7 @@ GET /api/alerts?unacknowledged=true
 POST /api/alerts/{alert_id}/acknowledge
 ```
 
-## 🧪 Testing
+## Testing
 
 Run the automated test suite:
 
@@ -271,7 +271,7 @@ pytest tests/ -v
 pytest tests/ --cov=src --cov-report=html
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Camera Not Detected
 - **USB Camera**: Try different source IDs (0, 1, 2...)
@@ -297,7 +297,7 @@ pytest tests/ --cov=src --cov-report=html
 - Delete `data/employees.db` to reset (loses all data)
 - Check file permissions in data directory
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Muki/
@@ -324,7 +324,7 @@ Muki/
 └── logs/                  # Log files (created at runtime)
 ```
 
-## 🔒 Privacy & Security
+## Privacy & Security
 
 - **All Data Local**: No cloud services, all data stays on your machine
 - **Database Encryption**: Consider encrypting the database file for sensitive deployments
@@ -332,7 +332,7 @@ Muki/
 - **Face Data**: Face encodings are stored as binary data, not actual images
 - **GDPR Compliance**: Ensure proper consent and data handling per local regulations
 
-## 🔧 Advanced Configuration
+## Advanced Configuration
 
 ### Running as Windows Service
 Use NSSM (Non-Sucking Service Manager) to run as a background service:
@@ -354,7 +354,7 @@ copy data\employees.db backups\employees_backup_$(Get-Date -Format 'yyyyMMdd').d
 ### Custom Alert Actions
 Edit `src/alerts.py` to add custom alert actions like email, SMS, or webhook notifications.
 
-## 📊 Performance Optimization
+## Performance Optimization
 
 1. **Adjust Detection Interval**: Increase to process fewer frames
 2. **Reduce Camera Resolution**: Lower resolution = faster processing
@@ -362,7 +362,7 @@ Edit `src/alerts.py` to add custom alert actions like email, SMS, or webhook not
 4. **Limit Camera Count**: More cameras = more CPU usage
 5. **Database Maintenance**: Run cleanup regularly to remove old logs
 
-## 🤝 Contributing
+## Contributing
 
 This is a complete, working system. Enhancements welcome:
 - Additional detection algorithms
@@ -371,11 +371,11 @@ This is a complete, working system. Enhancements welcome:
 - Multi-language support
 - Enhanced analytics
 
-## 📄 License
+## License
 
 This project is provided as-is for use by MSMEs. Modify and adapt as needed for your specific requirements.
 
-## 🆘 Support
+## Support
 
 For issues and questions:
 1. Check the troubleshooting section
@@ -383,7 +383,7 @@ For issues and questions:
 3. Test individual components using the test suite
 4. Verify configuration in `config.yaml`
 
-## 🎓 Learning Resources
+## Learning Resources
 
 - **OpenCV**: https://opencv.org/
 - **Face Recognition**: https://face-recognition.readthedocs.io/
